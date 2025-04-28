@@ -1,7 +1,7 @@
 ﻿using ProjektMirjan.Model;
 using RestSharp;
-using System.Text.Json;
 using Newtonsoft.Json;
+using ProjektMirjan.DTO;
 
 namespace ProjektMirjan.Service
 {
@@ -16,27 +16,24 @@ namespace ProjektMirjan.Service
             _logger = logger;
         }
 
-        public async Task<CurrencyRateTable?> GetCurrencyRatesAsync()
+        public async Task<CurrencyRateTableDTO> GetCurrencyRatesAsync()
         {
             var request = new RestRequest("exchangerates/tables/A?format=json", Method.Get);
             var response = await _client.ExecuteAsync(request);
 
             if(!response.IsSuccessful)
             {
-                _logger.LogError($"Error: {response.StatusCode} - {response.ErrorMessage}");
+                throw new Exception($"NBP API Error: {response.StatusCode} Response: {response.ErrorMessage}");
             }
 
             if(string.IsNullOrWhiteSpace(response.Content))
             {
-                _logger.LogWarning("Brak danych pobranych z API");
+                throw new Exception($"NBP API Error: No data fetched.");
             }
-
-            Console.WriteLine("RAW RESPONSE:");
-            Console.WriteLine(response.Content);
 
             try
             {
-                var tables = JsonConvert.DeserializeObject<List<CurrencyRateTable>>(response.Content);
+                var tables = JsonConvert.DeserializeObject<List<CurrencyRateTableDTO>>(response.Content);
                 _logger.LogInformation(response.Content.ToString());
                 return tables?.FirstOrDefault();
             }
