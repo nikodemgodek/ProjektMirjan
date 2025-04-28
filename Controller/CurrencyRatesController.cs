@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProjektMirjan.DTO;
 using ProjektMirjan.Service;
 
 namespace ProjektMirjan.Controller
@@ -8,11 +9,13 @@ namespace ProjektMirjan.Controller
     public class CurrencyRatesController : ControllerBase
     {
         private readonly NbpApiService _nbpApiService;
+        private readonly CurrencyRateService _currencyRateService;
         private readonly ILogger<CurrencyRatesController> _logger;
 
-        public CurrencyRatesController(NbpApiService nbpApiService, ILogger<CurrencyRatesController> logger)
+        public CurrencyRatesController(NbpApiService nbpApiService, ILogger<CurrencyRatesController> logger, CurrencyRateService currencyRateService)
         {
             _nbpApiService = nbpApiService;
+            _currencyRateService = currencyRateService;
             _logger = logger;
         }
 
@@ -30,7 +33,8 @@ namespace ProjektMirjan.Controller
             }
 
             _logger.LogInformation("Exchange rates successfully fetched.");
-            return Ok(table);
+            await _currencyRateService.SaveCurrencyRatesAsync(table);
+            return Ok(table) ;
         }
     }
 }
