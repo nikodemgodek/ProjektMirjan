@@ -6,7 +6,7 @@ namespace ProjektMirjan.Service
 {
     public class CurrencyRateService
     {
-        private readonly CurrencyContext _currencyContext;
+        public CurrencyContext _currencyContext;
 
         public CurrencyRateService(CurrencyContext currencyContext)
         {
