@@ -8,38 +8,43 @@ namespace ProjektMirjan.Service
     public class NbpApiService
     {
         private readonly RestClient _client;
-        private readonly ILogger<NbpApiService> _logger;
 
-        public NbpApiService(ILogger<NbpApiService> logger)
+        public NbpApiService(string apiUrl = "https://api.nbp.pl/api/")
         {
-            _client = new RestClient("https://api.nbp.pl/api/");
-            _logger = logger;
+            _client = new RestClient(apiUrl);
         }
 
         public async Task<CurrencyRateTableDTO> GetCurrencyRatesAsync()
         {
+            
             var request = new RestRequest("exchangerates/tables/A?format=json", Method.Get);
             var response = await _client.ExecuteAsync(request);
 
             if(!response.IsSuccessful)
             {
-                throw new Exception($"NBP API Error: {response.StatusCode} Response: {response.ErrorMessage}");
+                switch (response.StatusCode)
+                {
+                    case System.Net.HttpStatusCode.BadRequest:
+                        throw new InvalidOperationException("Błąd 400: Nieprawidłowe żądanie");
+                    case System.Net.HttpStatusCode.NotFound:
+                        throw new InvalidOperationException("Błąd 404: Nie znaleziono");
+                    default:
+                        throw new HttpRequestException($"Błąd API NBP: {response.StatusDescription}");
+                }
             }
 
             if(string.IsNullOrWhiteSpace(response.Content))
             {
-                throw new Exception($"NBP API Error: No data fetched.");
+                throw new Exception($"NBP API Error: API zwróciło pustą odpowiedź");
             }
 
             try
             {
                 var tables = JsonConvert.DeserializeObject<List<CurrencyRateTableDTO>>(response.Content);
-                _logger.LogInformation(response.Content.ToString());
                 return tables?.FirstOrDefault();
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Deserialization error: {ex.Message}");
                 return null;
             }
         }
