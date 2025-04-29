@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjektMirjan.DTO;
+using ProjektMirjan.Interfaces;
 using ProjektMirjan.Service;
 
 namespace ProjektMirjan.Controller
@@ -8,11 +9,11 @@ namespace ProjektMirjan.Controller
     [Route("api/[controller]")]
     public class CurrencyRatesController : ControllerBase
     {
-        private readonly NbpApiService _nbpApiService;
+        private readonly INbpApiService _nbpApiService;
         private readonly CurrencyRateService _currencyRateService;
         private readonly ILogger<CurrencyRatesController> _logger;
 
-        public CurrencyRatesController(NbpApiService nbpApiService, ILogger<CurrencyRatesController> logger, CurrencyRateService currencyRateService)
+        public CurrencyRatesController(INbpApiService nbpApiService, ILogger<CurrencyRatesController> logger, CurrencyRateService currencyRateService)
         {
             _nbpApiService = nbpApiService;
             _currencyRateService = currencyRateService;
