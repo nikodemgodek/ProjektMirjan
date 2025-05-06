@@ -4,6 +4,6 @@ namespace ProjektMirjan.Interfaces
 {
     public interface INbpApiService
     {
-        Task<CurrencyRateTableDTO> GetCurrencyRatesAsync();
+        Task<List<CurrencyRateTableDTO>> GetCurrencyRatesAsync(DateTime? startDate, DateTime? endDate);
     }
 }

@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using ProjektMirjan.DTO;
 using Microsoft.IdentityModel.Tokens;
 using ProjektMirjan.Interfaces;
+using System.Runtime.CompilerServices;
 
 namespace ProjektMirjan.Service
 {
@@ -16,10 +17,20 @@ namespace ProjektMirjan.Service
             _client = new RestClient(baseUrl);
         }
 
-        public async Task<CurrencyRateTableDTO> GetCurrencyRatesAsync()
+        public async Task<List<CurrencyRateTableDTO>> GetCurrencyRatesAsync(DateTime? startDate = null, DateTime? endDate = null)
         {
-            
-            var request = new RestRequest("exchangerates/tables/A?format=json", Method.Get);
+            string apiUrl;
+            if (!startDate.HasValue || !endDate.HasValue)
+            {
+                apiUrl = $"exchangerates/tables/A?format=json";
+            } else
+            {
+                string formatStart = startDate.Value.ToString("yyyy-MM-dd");
+                string formatEnd = endDate.Value.ToString("yyyy-MM-dd");
+                apiUrl = $"exchangerates/tables/A/{formatStart}/{formatEnd}?format=json";
+            }
+
+            var request = new RestRequest(apiUrl, Method.Get);
             var response = await _client.ExecuteAsync(request);
 
             if(!response.IsSuccessful)
@@ -53,7 +64,7 @@ namespace ProjektMirjan.Service
                     throw new Exception("NBP API Error: Pobrane dane są niepoprawne lub puste");
                 }
 
-                return tables.FirstOrDefault();
+                return tables;
             }
             catch (JsonException ex)
             {

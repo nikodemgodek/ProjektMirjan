@@ -13,30 +13,34 @@ namespace ProjektMirjan.Service
             _currencyContext = currencyContext;
         }
 
-        public async Task SaveCurrencyRatesAsync(CurrencyRateTableDTO tableDTO)
+        public async Task SaveCurrencyRatesAsync(List<CurrencyRateTableDTO> tables)
         {
-            var existingTable = _currencyContext.CurrencyRateTables
-                .FirstOrDefault(t => t.Table == tableDTO.Table && t.No == tableDTO.No);
 
-            if(existingTable != null)
+            foreach (var table in tables)
             {
-                return;
-            }
+                var exists = _currencyContext.CurrencyRateTables.Any(t => t.Table == table.Table && t.No == table.No);
 
-            var newTable = new CurrencyRateTable
-            {
-                Table = tableDTO.Table,
-                No = tableDTO.No,
-                EffectiveDate = tableDTO.EffectiveDate,
-                CurrencyRates = tableDTO.Rates.Select(r => new CurrencyRate
+                if(exists)
                 {
-                    Currency = r.Currency,
-                    Code = r.Code,
-                    Mid = r.Mid
-                }).ToList()
-            };
+                    continue;
+                }
 
-            await _currencyContext.CurrencyRateTables.AddAsync(newTable);
+                var newTable = new CurrencyRateTable
+                {
+                    Table = table.Table,
+                    No = table.No,
+                    EffectiveDate = table.EffectiveDate,
+                    CurrencyRates = table.Rates.Select(r => new CurrencyRate
+                    {
+                        Currency = r.Currency,
+                        Code = r.Code,
+                        Mid = r.Mid
+                    }).ToList()
+                };
+
+                await _currencyContext.CurrencyRateTables.AddAsync(newTable);
+            }
+            
             await _currencyContext.SaveChangesAsync();
         }
     }

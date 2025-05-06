@@ -21,21 +21,21 @@ namespace ProjektMirjan.Controller
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetRates()
+        public async Task<IActionResult> GetRates([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
         {
             _logger.LogInformation("Starting request");
 
-            var table = await _nbpApiService.GetCurrencyRatesAsync();
+            var tables = await _nbpApiService.GetCurrencyRatesAsync(startDate, endDate);
 
-            if (table == null)
+            if (tables == null)
             {
                 _logger.LogWarning("No exchange rates found or API error occurred.");
                 return StatusCode(503, "API NBP is unavailable or returned an error.");
             }
 
             _logger.LogInformation("Exchange rates successfully fetched.");
-            await _currencyRateService.SaveCurrencyRatesAsync(table);
-            return Ok(table) ;
+            await _currencyRateService.SaveCurrencyRatesAsync(tables);
+            return Ok(tables) ;
         }
     }
 }
