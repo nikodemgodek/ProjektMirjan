@@ -1,5 +1,3 @@
-## Instalacja
-
 ### Utworzenie bazy danych
 
 ```bash
