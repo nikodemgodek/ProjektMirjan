@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProjektMirjan.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c7c5266c18c95046f44315baa61263a63f8ab1dd")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProjektMirjan.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProjektMirjan.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -7,6 +7,5 @@
         public DateTime EffectiveDate { get; set; }
         public List<CurrencyRateDTO> Rates { get; set; }
 
-
     }
 }

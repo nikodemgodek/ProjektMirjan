@@ -12,8 +12,8 @@ using ProjektMirjan.Context;
 namespace ProjektMirjan.Migrations
 {
     [DbContext(typeof(CurrencyContext))]
-    [Migration("20250506131817_Migracja")]
-    partial class Migracja
+    [Migration("20250507072817_Migration2")]
+    partial class Migration2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,9 @@ namespace ProjektMirjan.Migrations
                         .HasMaxLength(3)
                         .HasColumnType("nvarchar(3)");
 
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Currency")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -47,6 +50,9 @@ namespace ProjektMirjan.Migrations
 
                     b.Property<decimal>("Mid")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Symbol")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

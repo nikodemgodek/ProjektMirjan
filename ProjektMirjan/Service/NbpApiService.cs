@@ -19,6 +19,11 @@ namespace ProjektMirjan.Service
 
         public async Task<List<CurrencyRateTableDTO>> GetCurrencyRatesAsync(DateTime? startDate = null, DateTime? endDate = null)
         {
+            if(startDate.HasValue && endDate.HasValue && (endDate.Value - startDate.Value).Days > 93)
+            {
+                throw new ArgumentException("Przekroczono zakres 93 dni");
+            }
+
             string apiUrl;
             if (!startDate.HasValue || !endDate.HasValue)
             {

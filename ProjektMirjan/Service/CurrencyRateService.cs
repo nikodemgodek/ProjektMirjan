@@ -15,7 +15,6 @@ namespace ProjektMirjan.Service
 
         public async Task SaveCurrencyRatesAsync(List<CurrencyRateTableDTO> tables)
         {
-
             foreach (var table in tables)
             {
                 var exists = _currencyContext.CurrencyRateTables.Any(t => t.Table == table.Table && t.No == table.No);
@@ -32,8 +31,8 @@ namespace ProjektMirjan.Service
                     EffectiveDate = table.EffectiveDate,
                     CurrencyRates = table.Rates.Select(r => new CurrencyRate
                     {
-                        Currency = r.Currency,
-                        Code = r.Code,
+                        Currency = r.Currency ?? r.Country,
+                        Code = r.Code ?? r.Symbol,
                         Mid = r.Mid
                     }).ToList()
                 };

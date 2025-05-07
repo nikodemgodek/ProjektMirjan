@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjektMirjan.Migrations
 {
     /// <inheritdoc />
-    public partial class Migracja : Migration
+    public partial class Migration2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,7 +35,9 @@ namespace ProjektMirjan.Migrations
                     Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     Mid = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CurrencyRateTableId = table.Column<int>(type: "int", nullable: false)
+                    CurrencyRateTableId = table.Column<int>(type: "int", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Symbol = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

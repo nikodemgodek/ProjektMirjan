@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Net;
 using ProjektMirjan.Interfaces;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.Extensions.Configuration;
 
 namespace ProjektMirjan.Tests
 {
@@ -18,11 +19,12 @@ namespace ProjektMirjan.Tests
     public class NbpApiServiceTests
     {
         private Mock<INbpApiService> _mockApiService;
-
+        private NbpApiService _nbpApiService;
         [SetUp]
         public void SetUp()
         {
             _mockApiService = new Mock<INbpApiService>();
+            _nbpApiService = new NbpApiService("https://api.nbp.pl/api/");
         }
 
         [Test]
@@ -54,7 +56,7 @@ namespace ProjektMirjan.Tests
                     }
                 }
             };
-            
+
             _mockApiService.Setup(service => service.GetCurrencyRatesAsync(null, null))
                 .ReturnsAsync(mockCurrencyRates);
 
@@ -107,6 +109,19 @@ namespace ProjektMirjan.Tests
 
             Assert.That(ex.Message, Does.Contain("404"));
             Assert.That(ex, Is.TypeOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public async Task GetCurrencyRatesAsync_ShouldThrowArgumentException_WhenRangeExceeds93Days()
+        {
+
+            var startDate = new DateTime(2023, 1, 1);
+            var endDate = new DateTime(2023, 6, 1);
+
+            var exception = Assert.ThrowsAsync<ArgumentException>(async () => await _nbpApiService.GetCurrencyRatesAsync(startDate, endDate));
+
+            Assert.That(exception.Message, Does.Contain("93 dni"));
+
         }
     }
 }

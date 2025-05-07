@@ -12,8 +12,8 @@ using ProjektMirjan.Context;
 namespace ProjektMirjan.Migrations
 {
     [DbContext(typeof(CurrencyContext))]
-    [Migration("20250505132444_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250507075952_Test")]
+    partial class Test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

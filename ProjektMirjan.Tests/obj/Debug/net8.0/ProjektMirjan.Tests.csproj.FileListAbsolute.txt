@@ -226,3 +226,4 @@ C:\Users\nikodem\source\repos\ProjektMirjan.Tests\obj\Debug\net8.0\refint\Projek
 C:\Users\nikodem\source\repos\ProjektMirjan.Tests\obj\Debug\net8.0\ProjektMirjan.Tests.pdb
 C:\Users\nikodem\source\repos\ProjektMirjan.Tests\obj\Debug\net8.0\ProjektMirjan.Tests.genruntimeconfig.cache
 C:\Users\nikodem\source\repos\ProjektMirjan.Tests\obj\Debug\net8.0\ref\ProjektMirjan.Tests.dll
+C:\Users\nikodem\source\repos\ProjektMirjan.Tests\obj\Debug\net8.0\ProjektMirjan.Tests.sourcelink.json

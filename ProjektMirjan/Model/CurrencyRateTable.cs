@@ -8,11 +8,8 @@ namespace ProjektMirjan.Model
     {
         [Key]
         public int Id { get; set; }
-        [Required]
         public string Table {  get; set; }
-        [Required]
         public string No {  get; set; }
-        [Required]
         public DateTime EffectiveDate { get; set; }
         public List<CurrencyRate> CurrencyRates { get; set; }
 
